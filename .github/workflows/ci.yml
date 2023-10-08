@@ -20,4 +20,4 @@ jobs:
         uses: gradle/wrapper-validation-action@V1.0.0
         
       - name: Run the Gradle package task
-        uses: gradle/gradle-build-action@V2.9.0
+        uses: gradle/gradle-build-action@V2
