@@ -43,7 +43,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/fandango:latest
           
       - name: Start application environment
-        run: docker-compose -d up
+        run: docker-compose up -d
 
       - name: Execute SIT
         run: |
