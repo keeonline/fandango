@@ -17,7 +17,7 @@ jobs:
           java-version: '17'
           
       - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@V1.0.0
+        uses: gradle/wrapper-validation-action@v1.0.0
         
       - name: Run the Gradle package task
         uses: gradle/gradle-build-action@v2
