@@ -32,6 +32,12 @@ import com.keeonline.fandango.iso8583.message.transformer.TransformedMessage;
 @RestController
 @RequestMapping("/fandango/mcbn/ebcdic")
 public class McbnEbcdicController {
+
+    String baseUrl;
+
+    public McbnEbcdicController() {
+        baseUrl = String.format("%s/payments/requests",System.getenv("PAYMENTS_BASE_URL"));
+    }
     
     @GetMapping(path = "/ping")
     public ResponseEntity ping() {
@@ -50,7 +56,7 @@ public class McbnEbcdicController {
 
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<MessageDto> requestDto = new HttpEntity<>(new MessageDto(requestData));
-            ResponseEntity<MessageDto> responseEntity = restTemplate.exchange(/*fooResourceUrl*/"http://localhost:8081/payments/requests", HttpMethod.POST, requestDto, MessageDto.class); 
+            ResponseEntity<MessageDto> responseEntity = restTemplate.exchange(baseUrl, HttpMethod.POST, requestDto, MessageDto.class); 
 
             TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody().getData());
 

@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+
+  payments:
+    image: keeonline/payments
+
+  fandango:
+    image: keeonline/fandango
+    ports:
+      - 8080:8080
+    environment:
+      PAYMENTS_BASE_URL: http://payments:80
+    depends_on:
+      - payments
