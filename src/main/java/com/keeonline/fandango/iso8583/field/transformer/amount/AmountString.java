@@ -62,17 +62,17 @@ public class AmountString extends AmountTransformer {
 		return getTransformedField(value,encoded,getFieldSpec());
 	}
 
-	@Override
-	public TransformedField parse(String payload, int offset) throws FieldTransformerException {
-		String encoded = validateParseArguments(payload,offset,length*2);
-		String formatted = null;
-		try {
-			formatted = Text.encodedToString(encoded,codePage);
-		} catch (UnsupportedEncodingException e) {
-			// TODO create FieldTransformerException
-		}				
-		MonetaryAmount value = new MonetaryAmount(new BigInteger(formatted));
-		return getTransformedField(value,encoded,getFieldSpec());
-	}
+	// @Override
+	// public TransformedField parse(String payload, int offset) throws FieldTransformerException {
+	// 	String encoded = validateParseArguments(payload,offset,length*2);
+	// 	String formatted = null;
+	// 	try {
+	// 		formatted = Text.encodedToString(encoded,codePage);
+	// 	} catch (UnsupportedEncodingException e) {
+	// 		// TODO create FieldTransformerException
+	// 	}				
+	// 	MonetaryAmount value = new MonetaryAmount(new BigInteger(formatted));
+	// 	return getTransformedField(value,encoded,getFieldSpec());
+	// }
 	
 }

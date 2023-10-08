@@ -57,13 +57,13 @@ public class AmountPackedBcd extends AmountTransformer {
 		return getTransformedField(value,encoded,getFieldSpec());
 	}
 
-	@Override
-	public TransformedField parse(String payload, int offset) throws FieldTransformerException {
-		int adjustment = Packed.getLengthAdjustment(length);		
-		String encoded = validateParseArguments(payload,offset,length+adjustment);
-		String formatted = Packed.fromPacked(encoded,length,padPosition,padChar);
-		MonetaryAmount value = new MonetaryAmount(new BigInteger(formatted));
-		return getTransformedField(value,encoded,getFieldSpec());
-	}
+	// @Override
+	// public TransformedField parse(String payload, int offset) throws FieldTransformerException {
+	// 	int adjustment = Packed.getLengthAdjustment(length);		
+	// 	String encoded = validateParseArguments(payload,offset,length+adjustment);
+	// 	String formatted = Packed.fromPacked(encoded,length,padPosition,padChar);
+	// 	MonetaryAmount value = new MonetaryAmount(new BigInteger(formatted));
+	// 	return getTransformedField(value,encoded,getFieldSpec());
+	// }
 	
 }

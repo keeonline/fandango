@@ -6,6 +6,10 @@ public class MessageDto {
     
 	private MessageData data;
 
+    public MessageDto() {
+        setData(data);
+    }
+
     public MessageDto(MessageData data) {
         setData(data);
     }

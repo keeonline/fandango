@@ -56,33 +56,33 @@ public class AmountPackedBcdParseTest extends TestBase {
 //		assertEquals(value,result.getValue());
 //	}
 
-	@Test
-	public void parseAmountEvenLength() throws FieldTransformerException {
-		primitiveSpec.addAttribute("value-regex","^\\d{12}$");
-		primitiveSpec.addAttribute("length","12");
-		FieldTransformer transformer = getTransformer(primitiveSpec);
-		String payload = "123456789012";
-		result = transformer.parse(payload,0);
-		assertEquals("123456789012",result.getEncoded());
-		MonetaryAmount value = (MonetaryAmount) result.getValue();
-		// assertEquals(new BigInteger("123456789012"),value.getImpliedDecimalsAmount());
-		// assertEquals(null,value.getAmount());
-		// assertEquals(null,value.getCurrency());
-	}
+	// @Test
+	// public void parseAmountEvenLength() throws FieldTransformerException {
+	// 	primitiveSpec.addAttribute("value-regex","^\\d{12}$");
+	// 	primitiveSpec.addAttribute("length","12");
+	// 	FieldTransformer transformer = getTransformer(primitiveSpec);
+	// 	String payload = "123456789012";
+	// 	result = transformer.parse(payload,0);
+	// 	assertEquals("123456789012",result.getEncoded());
+	// 	MonetaryAmount value = (MonetaryAmount) result.getValue();
+	// 	// assertEquals(new BigInteger("123456789012"),value.getImpliedDecimalsAmount());
+	// 	// assertEquals(null,value.getAmount());
+	// 	// assertEquals(null,value.getCurrency());
+	// }
 
-	@Test
-	public void parseAmountOddLength() throws FieldTransformerException {
-		primitiveSpec.addAttribute("value-regex","^\\d{11}$");
-		primitiveSpec.addAttribute("length","11");
-		FieldTransformer transformer = getTransformer(primitiveSpec);
-		String payload = "012345678901";
-		result = transformer.parse(payload,0);
-		assertEquals("012345678901",result.getEncoded());
-		MonetaryAmount value = (MonetaryAmount) result.getValue();
-		// assertEquals(new BigInteger("12345678901"),value.getImpliedDecimalsAmount());
-		// assertEquals(null,value.getAmount());
-		// assertEquals(null,value.getCurrency());
-	}
+	// @Test
+	// public void parseAmountOddLength() throws FieldTransformerException {
+	// 	primitiveSpec.addAttribute("value-regex","^\\d{11}$");
+	// 	primitiveSpec.addAttribute("length","11");
+	// 	FieldTransformer transformer = getTransformer(primitiveSpec);
+	// 	String payload = "012345678901";
+	// 	result = transformer.parse(payload,0);
+	// 	assertEquals("012345678901",result.getEncoded());
+	// 	MonetaryAmount value = (MonetaryAmount) result.getValue();
+	// 	// assertEquals(new BigInteger("12345678901"),value.getImpliedDecimalsAmount());
+	// 	// assertEquals(null,value.getAmount());
+	// 	// assertEquals(null,value.getCurrency());
+	// }
 
 	
 }

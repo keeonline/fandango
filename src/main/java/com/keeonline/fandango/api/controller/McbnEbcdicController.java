@@ -39,7 +39,7 @@ public class McbnEbcdicController {
     }
 
     @PostMapping(path = "/requests")
-    public ResponseEntity<?> onRequest(@RequestBody MessageBytesDto requestBytesDto) {
+    public ResponseEntity<MessageBytesDto> onRequest(@RequestBody MessageBytesDto requestBytesDto) {
 
         McbnService mcbnService = new McbnService();
         MessageBytesDto responseBytesDto = null;
@@ -50,9 +50,11 @@ public class McbnEbcdicController {
 
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<MessageDto> requestDto = new HttpEntity<>(new MessageDto(requestData));
-            ResponseEntity<MessageDto> responseEntity = restTemplate.exchange(/*fooResourceUrl*/"", HttpMethod.POST, requestDto, MessageDto.class); 
+            ResponseEntity<MessageDto> responseEntity = restTemplate.exchange(/*fooResourceUrl*/"http://localhost:8081/payments/requests", HttpMethod.POST, requestDto, MessageDto.class); 
 
             TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody().getData());
+
+            System.out.println("MAPPED>>>>>>>>>> " + mappedResponse.getEncoded());
 
             responseBytesDto = new MessageBytesDto(mappedResponse.getEncoded());
 
