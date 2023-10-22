@@ -1,0 +1,28 @@
+- name: Remove the environment working directory, if it exists
+  ansible.builtin.file:
+    path: '~/fandango/{{ fandango_down_env }}'
+    state: absent
+
+- name: Create the environment working directory
+  ansible.builtin.file:
+    path: '~/fandango/{{ fandango_down_env }}'
+    state: directory
+
+- name: Pull the Fandango GitHub repository
+  ansible.builtin.git:
+    repo: https://github.com/keeonline/fandango.git
+    dest: '~/fandango/{{ fandango_down_env }}/fandango'
+    single_branch: yes
+    version: '{{ fandango_down_branch }}'
+  environment:
+      GIT_TERMINAL_PROMPT: 0
+
+- name: Stop the application
+  ansible.builtin.command:
+    chdir: '~/fandango/{{ fandango_down_env }}/fandango'
+    cmd: docker-compose down --rmi all
+
+- name: Remove the environment working directory
+  ansible.builtin.file:
+    path: '~/fandango/{{ fandango_down_env }}'
+    state: absent

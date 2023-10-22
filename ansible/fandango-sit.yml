@@ -1,0 +1,6 @@
+- name: Execute Fandango SIT
+  hosts: application
+  roles:
+    - fandango_sit
+    - fandango_down
+
