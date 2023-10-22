@@ -6,7 +6,7 @@ on: workflow_dispatch
 jobs:
 
   build-fandango:
-
+    name: Build and publish Fandango
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -44,6 +44,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/fandango:latest
          
   deploy-vtas-environment:
+    name: Deploy VTAS environment
     needs: [build-fandango]
     runs-on: ubuntu-latest
     steps:
@@ -78,18 +79,20 @@ jobs:
         run: terraform apply --auto-approve
   
   deploy-fandango:
+    name: Deploy Fandango instance (corresponding to VTAS env)
     needs: [provision-fandango-infrastructure]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         run: echo This is deploy-fandango
         
-  execute-fadango-sit:
+  execute-fandango-sit:
+    name: Execute Fandango SIT
     needs: [deploy-vtas-environment,deploy-fandango]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        run: echo execute-fadango-sit
+        run: echo execute-fandango-sit
       
           
 

@@ -1,4 +1,4 @@
-# vtas-demo-app
+# fandango
 
 
 http://localhost:8080/v2/api-docs
