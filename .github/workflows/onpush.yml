@@ -1,4 +1,4 @@
-name: Fandango SIT on push
+name: Fandango SIT (on push)
 
 on: workflow_dispatch
 # on: push
