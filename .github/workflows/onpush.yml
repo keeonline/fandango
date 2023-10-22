@@ -121,6 +121,7 @@ jobs:
             subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
                                             
       - name: 'Create hosts file'
+        working-directory: ./ansible
         run: |
           echo [linux] >> hosts
           echo application ansible_host=$(az vm show -d -g keeonline-rg -n keeonline-app-vm --query publicIps -o tsv) >> hosts
