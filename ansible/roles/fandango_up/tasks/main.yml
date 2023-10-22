@@ -16,6 +16,7 @@
     version: '{{ fandango_up_branch }}'
   environment:
       GIT_TERMINAL_PROMPT: 0
+# TODO: add retry on pull ******************
 
 - name: Start the application
   ansible.builtin.command:
