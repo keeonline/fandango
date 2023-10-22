@@ -130,11 +130,11 @@ jobs:
           cat hosts
                               
       - name: Run SIT execution
+        working-directory: ./ansible
         env:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
           AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.DEMO_CLIENT_ID }}
-          working-directory: ./ansible
         run: ansible-playbook -i hosts -v fandango-up.yml
 
   execute-fandango-sit:
