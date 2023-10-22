@@ -145,19 +145,36 @@ jobs:
       - name: Checkout source code
         run: echo execute-fandango-sit
       
-          
+  decommision-fandango-infrastructure:
+    name: Decommission Fandango infrastructure
+    needs: [execute-fandango-sit]
+    runs-on: ubuntu-latest
+    environment: DEMO
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialise infrastructure plan
+        working-directory: ./terraform/app
+        run: terraform init
+
+      - name: Apply infrastructure plan
+        working-directory: ./terraform/app
+        run: terraform destroy --auto-approve
+  
+                
 
 
 
 
 
-      # - name: Start fandango environment
-      #   run: docker-compose up -d
-
-      # - name: Execute SIT
-      #   run: |
-      #     sleep 30 \
-      #     && curl -X POST "http://localhost:8080/fandango/mcbn/ebcdic/requests" -H "accept: */*" -H "Content-Type: fandango/json" -d "{ \"payload\": \"F0F1F0F0763B440108C0A002F0F6F1F2F3F4F5F6F0F0F1F1F2F2F0F0F0F0F0F0F0F0F4F5F9F9F0F0F0F0F0F0F0F0F6F5F9F9F0F9F2F5F1F3F0F1F2F2F5F4F3F2F1F0F1F3F0F1F2F2F0F9F0F7F0F9F0F8F0F9F0F9F5F9F8F1F0F1F0F0F6F8F1F8F1F8F1F0F9F0F7F0F0F0F1F2F3F4F5C1C2C3C4C5C6C7C8C1C2C3C4C5C6C7C8F0F1F2F3F4F5F6F0F3F6F8F2F6F0F1F2D4C3C3F1F2F3F4F5F6F7F8F9\"}"
-
-      # - name: Stop fandango environment
-      #   run: docker-compose down    
