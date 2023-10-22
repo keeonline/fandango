@@ -1,0 +1,109 @@
+name: Fandango SIT on push
+
+on: workflow_dispatch
+# on: push
+
+jobs:
+
+  build-fandango:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup java on GHR
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+          
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1.0.0
+        
+      - name: Run the Gradle package task
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+  
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/fandango:latest
+         
+  deploy-vtas-environment:
+    needs: [build-fandango]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        run: echo This is deploy-vtas-environment
+
+  provision-fandango-infrastructure:
+    name: Provision Fandango infrastructure
+    needs: [build-fandango]
+    runs-on: ubuntu-latest
+    environment: DEMO
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialise infrastructure plan
+        working-directory: ./terraform/app
+        run: terraform init
+
+      - name: Apply infrastructure plan
+        working-directory: ./terraform/app
+        run: terraform apply --auto-approve
+  
+  deploy-fandango:
+    needs: [provision-fandango-infrastructure]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        run: echo This is deploy-fandango
+        
+  execute-fadango-sit:
+    needs: [deploy-vtas-environment,deploy-fandango]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        run: echo execute-fadango-sit
+      
+          
+
+
+
+
+
+      # - name: Start fandango environment
+      #   run: docker-compose up -d
+
+      # - name: Execute SIT
+      #   run: |
+      #     sleep 30 \
+      #     && curl -X POST "http://localhost:8080/fandango/mcbn/ebcdic/requests" -H "accept: */*" -H "Content-Type: fandango/json" -d "{ \"payload\": \"F0F1F0F0763B440108C0A002F0F6F1F2F3F4F5F6F0F0F1F1F2F2F0F0F0F0F0F0F0F0F4F5F9F9F0F0F0F0F0F0F0F0F6F5F9F9F0F9F2F5F1F3F0F1F2F2F5F4F3F2F1F0F1F3F0F1F2F2F0F9F0F7F0F9F0F8F0F9F0F9F5F9F8F1F0F1F0F0F6F8F1F8F1F8F1F0F9F0F7F0F0F0F1F2F3F4F5C1C2C3C4C5C6C7C8C1C2C3C4C5C6C7C8F0F1F2F3F4F5F6F0F3F6F8F2F6F0F1F2D4C3C3F1F2F3F4F5F6F7F8F9\"}"
+
+      # - name: Stop fandango environment
+      #   run: docker-compose down    

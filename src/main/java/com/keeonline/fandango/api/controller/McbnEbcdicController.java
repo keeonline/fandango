@@ -60,8 +60,6 @@ public class McbnEbcdicController {
 
             TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody().getData());
 
-            System.out.println("MAPPED>>>>>>>>>> " + mappedResponse.getEncoded());
-
             responseBytesDto = new MessageBytesDto(mappedResponse.getEncoded());
 
         } catch (FieldTransformerException e) {

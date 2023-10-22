@@ -21,7 +21,6 @@ public class MonetaryAmount {
 	 * No argument constructor.
 	 */
 	public MonetaryAmount() {
-				System.out.println("********* HERE!!!!!");
 	}
 	
 	/**
@@ -60,7 +59,6 @@ public class MonetaryAmount {
 	public MonetaryAmount(BigInteger amount, BigInteger currencyCode) {
 		setCurrency(Currencies.getInstance().getCurrency(currencyCode.intValue()));
 		setAmount(new BigDecimal(amount.toString()));
-		System.out.println("********* " + amount.toString() + " " + currencyCode.toString());
 		for ( int i=0 ; i<currency.getDefaultFractionDigits() ; i++ ){
 			this.amount = this.amount.divide(BigDecimal.valueOf(10L));
 		}

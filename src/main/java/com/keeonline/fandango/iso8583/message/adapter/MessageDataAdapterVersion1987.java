@@ -51,8 +51,6 @@ public class MessageDataAdapterVersion1987 extends MessageDataAdapter {
             }
         }
 
-        System.err.println("&&&&&&&&&&&&&&&&&&&&&&");
-
         setVersion1987Amounts(messageData,transformedMessage);
 
         return messageData;
