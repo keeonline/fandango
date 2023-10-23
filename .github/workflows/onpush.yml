@@ -140,7 +140,7 @@ jobs:
   execute-fandango-sit:
     name: Execute Fandango SIT
     # needs: [deploy-vtas-environment,deploy-fandango]
-    needs: [deploy-vtas-environment]
+    needs: [deploy-vtas-environment,provision-fandango-infrastructure]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
