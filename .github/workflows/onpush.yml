@@ -148,7 +148,7 @@ jobs:
       
   decommision-fandango-infrastructure:
     name: Decommission Fandango infrastructure
-    needs: [execute-fandango-sit]
+    needs: [execute-fandango-sit,provision-fandango-infrastructure]
     runs-on: ubuntu-latest
     environment: DEMO
     env:
