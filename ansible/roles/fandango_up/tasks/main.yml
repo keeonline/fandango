@@ -23,6 +23,11 @@
     chdir: '~/fandango/{{ fandango_up_env }}/fandango'
     cmd: ls -lsa
 
+- name: Wait for the docker-compose.yml file to be in situ
+  ansible.builtin.wait_for:
+    timeout: 60
+    path: '~/fandango/{{ fandango_up_env }}/fandango/docker-compose.yml'
+  
 - name: Start the application
   ansible.builtin.command:
     chdir: '~/fandango/{{ fandango_up_env }}/fandango'
