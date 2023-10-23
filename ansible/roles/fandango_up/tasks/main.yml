@@ -18,16 +18,10 @@
       GIT_TERMINAL_PROMPT: 0
 # TODO: add retry on pull ******************
 
-- name: Start the application
-  ansible.builtin.command:
-    chdir: '~/fandango/{{ fandango_up_env }}/fandango'
-    cmd: ls -lsa
+- name: Pause for 1 minute so docker is started (to be replaced with wait_for)
+  ansible.builtin.pause:
+    minutes : 1
 
-- name: Wait for the docker-compose.yml file to be in situ
-  ansible.builtin.wait_for:
-    timeout: 60
-    path: '~/fandango/{{ fandango_up_env }}/fandango/docker-compose.yml'
-  
 - name: Start the application
   ansible.builtin.command:
     chdir: '~/fandango/{{ fandango_up_env }}/fandango'
