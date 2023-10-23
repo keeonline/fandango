@@ -129,7 +129,7 @@ jobs:
           echo "" >> hosts
           cat hosts
                               
-      - name: Run SIT execution
+      - name: Start the Fandango service
         working-directory: ./ansible
         env:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
