@@ -21,6 +21,11 @@
 - name: Start the application
   ansible.builtin.command:
     chdir: '~/fandango/{{ fandango_up_env }}/fandango'
+    cmd: ls -lsa
+
+- name: Start the application
+  ansible.builtin.command:
+    chdir: '~/fandango/{{ fandango_up_env }}/fandango'
     cmd: docker-compose up -d
 
 # - name: Remove the environment working directory
