@@ -194,7 +194,7 @@ jobs:
       
   decommision-fandango-infrastructure:
     name: Decommission Fandango infrastructure
-    needs: [execute-fandango-sit,provision-fandango-infrastructure]
+    needs: [execute-fandango-sit]
     runs-on: ubuntu-latest
     environment: DEMO
     env:
@@ -219,9 +219,14 @@ jobs:
         working-directory: ./terraform/app
         run: terraform destroy --auto-approve
   
-                
+  decommision-vtas-infrastructure:
+    name: Decommission VTAS infrastructure
+    needs: [execute-fandango-sit]
+    runs-on: ubuntu-latest
+    environment: DEMO
 
-
-
-
-
+    steps:
+      - name: Decommission VTAS env
+        run: echo decommissioning VTAS env
+        
+                      
