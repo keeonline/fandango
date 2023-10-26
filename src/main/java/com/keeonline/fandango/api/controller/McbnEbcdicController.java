@@ -1,12 +1,8 @@
 package com.keeonline.fandango.api.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.keeonline.fandango.api.model.MessageBytesDto;
 import com.keeonline.fandango.api.model.MessageDto;
-import com.keeonline.fandango.api.model.PingResponseDto;
 import com.keeonline.fandango.api.service.McbnService;
 import com.keeonline.fandango.iso8583.field.transformer.exception.FieldTransformerException;
 import com.keeonline.fandango.iso8583.message.model.MessageData;
@@ -39,12 +34,7 @@ public class McbnEbcdicController {
         baseUrl = String.format("%s/payments/requests",System.getenv("PAYMENTS_BASE_URL"));
     }
     
-    @GetMapping(path = "/ping")
-    public ResponseEntity ping() {
-        return ResponseEntity.ok().body(new PingResponseDto());
-    }
-
-    @PostMapping(path = "/requests")
+     @PostMapping(path = "/requests")
     public ResponseEntity<MessageBytesDto> onRequest(@RequestBody MessageBytesDto requestBytesDto) {
 
         McbnService mcbnService = new McbnService();

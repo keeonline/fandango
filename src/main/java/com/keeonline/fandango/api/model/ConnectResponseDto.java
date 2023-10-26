@@ -1,11 +1,11 @@
 package com.keeonline.fandango.api.model;
 
-public class PingResponseDto {
+public class ConnectResponseDto {
 
     private String message;
 
-    public PingResponseDto(){
-        message = "pong";
+    public ConnectResponseDto(){
+        message = "MIP connection initiated";
     }
     
     public String getMessage() {
