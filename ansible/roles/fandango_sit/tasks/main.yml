@@ -1,6 +1,6 @@
 - name: Wait for Fandango readiness
   ansible.builtin.uri:
-    url: 'http://{{ hostvars[ "application" ].ansible_host }}:8080/fandango/mcbn/ebcdic/ping'
+    url: 'http://{{ hostvars[ "application" ].ansible_host }}:8080/fandango/mcbn/state'
     method: GET
   register: fandango_sit_readiness
   until: fandango_sit_readiness.status == 200

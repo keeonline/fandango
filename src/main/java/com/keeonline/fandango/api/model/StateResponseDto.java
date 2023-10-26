@@ -7,12 +7,12 @@ public class StateResponseDto {
     private String message;
 
     public StateResponseDto(){
-        if (MipConnection.isConnected()) {
+        // if (MipConnection.isConnected()) {
             message = "ready";
-        }
-        else {
-            message = "lively";
-        }
+    //     }
+    //     else {
+    //         message = "lively";
+    //     }
     }
     
     public String getMessage() {
