@@ -18,6 +18,10 @@
       GIT_TERMINAL_PROMPT: 0
 # TODO: add retry on pull ******************
 
+- name: Pause for 1 minute so docker is started (to be replaced with wait_for)
+  ansible.builtin.pause:
+    minutes : 1
+
 - name: Start the application
   ansible.builtin.command:
     chdir: '~/fandango/{{ fandango_up_env }}/fandango'
