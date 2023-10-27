@@ -18,9 +18,14 @@
       GIT_TERMINAL_PROMPT: 0
 # TODO: add retry on pull ******************
 
-- name: Pause for 1 minute so docker is started (to be replaced with wait_for)
+- name: Pause for 30 seconds so docker is started (to be replaced with wait_for)
   ansible.builtin.pause:
-    minutes : 1
+    seconds : 30
+
+- name: Create the installation variable file
+  ansible.builtin.template:
+    src: .env.j2
+    dest: '~/fandango/{{ fandango_up_env }}/fandango/.env'
 
 - name: Start the application
   ansible.builtin.command:

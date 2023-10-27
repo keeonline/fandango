@@ -120,22 +120,29 @@ jobs:
             tenant-id: ${{ secrets.TENANT_ID }}
             subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
                                             
-      - name: 'Create hosts file'
-        working-directory: ./ansible
-        run: |
-          echo [linux] >> hosts
-          echo application ansible_host=$(az vm show -d -g keeonline-rg -n keeonline-app-vm --query publicIps -o tsv) >> hosts
-          echo vtas ansible_host=$(az vm show -d -g keeonline-rg -n keeonline-vtas-vm --query publicIps -o tsv) >> hosts
-          echo "" >> hosts
-          cat hosts
-                              
       - name: Start the Fandango service
-        working-directory: ./ansible
         env:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
           AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.DEMO_CLIENT_ID }}
-        run: ansible-playbook -i hosts -v fandango-up.yml
+        working-directory: ./ansible
+        run: |
+          VTAS_HOST=$(az vm show -d -g keeonline-rg -n keeonline-vtas-vm --query publicIps -o tsv)
+          echo [linux] >> hosts
+          echo application ansible_host=$(az vm show -d -g keeonline-rg -n keeonline-app-vm --query publicIps -o tsv) >> hosts
+          # echo vtas ansible_host=$(az vm show -d -g keeonline-rg -n keeonline-vtas-vm --query publicIps -o tsv) >> hosts
+          echo vtas ansible_host=${VTAS_HOST} >> hosts
+          echo "" >> hosts
+          cat hosts
+          ansible-playbook -i hosts -v fandango-up.yml -e "fandango_up_payments_baseurl=http://${VTAS_HOST}:8082" 
+                              
+      # - name: Start the Fandango service
+      #   working-directory: ./ansible
+      #   env:
+      #     AZURE_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      #     AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}
+      #     AZURE_CLIENT_ID: ${{ secrets.DEMO_CLIENT_ID }}
+      #   run: ansible-playbook -i hosts -v fandango-up.yml
 
   execute-fandango-sit:
     name: Execute Fandango SIT

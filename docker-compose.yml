@@ -9,7 +9,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      # PAYMENTS_BASE_URL: ${PAYMENTS_BASE_URL:http://payments:80}
-      PAYMENTS_BASE_URL: http://payments:80
+      PAYMENTS_BASE_URL: ${PAYMENTS_BASE_URL}
+      # PAYMENTS_BASE_URL: http://payments:80
     depends_on:
       - payments
