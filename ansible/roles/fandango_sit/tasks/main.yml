@@ -8,8 +8,8 @@
     url: 'http://{{ hostvars[ "application" ].ansible_host }}:8080/fandango/mcbn/state'
     method: GET
   register: fandango_sit_readiness
-  # until: fandango_sit_readiness.status == 200
-  until: fandango_sit_readiness.json.state == "ready"
+  until: fandango_sit_readiness.status == 200
+  # until: fandango_sit_readiness.json.state == "ready"
   retries: 36
   delay: 5
 
