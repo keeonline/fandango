@@ -1,22 +1,15 @@
 package com.keeonline.fandango.api.model;
 
-import com.keeonline.fandango.mip.MipConnection;
-
 public class StateResponseDto {
 
-    private String message;
+    private String state;
 
-    public StateResponseDto(){
-        // if (MipConnection.isConnected()) {
-            message = "ready";
-    //     }
-    //     else {
-    //         message = "lively";
-    //     }
+    public StateResponseDto(String state){
+        this.state = state;
     }
     
     public String getMessage() {
-        return message;
+        return state;
     }
 
 }

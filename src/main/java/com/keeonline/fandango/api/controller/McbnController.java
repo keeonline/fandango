@@ -26,7 +26,12 @@ public class McbnController {
     
     @GetMapping(path = "/state")
     public ResponseEntity state() {
-        return ResponseEntity.ok().body(new StateResponseDto());
+        if (MipConnection.isConnected()) {
+            return ResponseEntity.ok().body(new StateResponseDto("ready"));
+        }
+        else {
+            return ResponseEntity.ok().body(new StateResponseDto("lively"));
+        }
     }
 
     @GetMapping(path = "/connect")
