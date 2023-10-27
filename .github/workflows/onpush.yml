@@ -143,6 +143,7 @@ jobs:
       #     AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}
       #     AZURE_CLIENT_ID: ${{ secrets.DEMO_CLIENT_ID }}
       #   run: ansible-playbook -i hosts -v fandango-up.yml
+      #
 
   execute-fandango-sit:
     name: Execute Fandango SIT
