@@ -8,7 +8,7 @@ public class StateResponseDto {
         this.state = state;
     }
     
-    public String getMessage() {
+    public String getState() {
         return state;
     }
 
