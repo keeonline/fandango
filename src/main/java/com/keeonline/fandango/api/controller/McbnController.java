@@ -30,7 +30,7 @@ public class McbnController {
             return ResponseEntity.ok().body(new StateResponseDto("ready"));
         }
         else {
-            return ResponseEntity.ok().body(new StateResponseDto("lively"));
+            return ResponseEntity.accepted().body(new StateResponseDto("lively"));
         }
     }
 
