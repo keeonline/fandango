@@ -134,7 +134,7 @@ jobs:
           echo vtas ansible_host=${VTAS_HOST} >> hosts
           echo "" >> hosts
           cat hosts
-          ansible-playbook -i hosts -v fandango-up.yml -e "fandango_up_payments_baseurl=http://${VTAS_HOST}:8082" 
+          ansible-playbook -i hosts -v fandango-up.yml -e "fandango_up_payments_baseurl=http://${VTAS_HOST}:12221" 
                               
       # - name: Start the Fandango service
       #   working-directory: ./ansible

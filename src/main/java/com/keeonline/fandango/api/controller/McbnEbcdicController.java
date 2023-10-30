@@ -31,7 +31,8 @@ public class McbnEbcdicController {
     String baseUrl;
 
     public McbnEbcdicController() {
-        baseUrl = String.format("%s/payments/requests",System.getenv("PAYMENTS_BASE_URL"));
+        baseUrl = System.getenv("PAYMENTS_BASE_URL");
+        System.out.println("**********************baseurl=" + baseUrl);
     }
     
      @PostMapping(path = "/requests")
@@ -41,12 +42,14 @@ public class McbnEbcdicController {
         MessageBytesDto responseBytesDto = null;
 
 		try {
+            String url = String.format("%s/payments/request", baseUrl);
+            System.out.println("**********************requesturl=" + url);
 
             MessageData requestData = mcbnService.parse(requestBytesDto.getPayload());
 
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<MessageDto> requestDto = new HttpEntity<>(new MessageDto(requestData));
-            ResponseEntity<MessageDto> responseEntity = restTemplate.exchange(baseUrl, HttpMethod.POST, requestDto, MessageDto.class); 
+            ResponseEntity<MessageDto> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestDto, MessageDto.class); 
 
             TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody().getData());
 
