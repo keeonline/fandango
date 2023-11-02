@@ -24,7 +24,7 @@
 
 - name: Copy the MCBN VTAS environment into the VTAS env directory
   ansible.builtin.copy:
-    src: '{{ mcbn_up_workdir }}/vtas-env'
+    src: '{{ mcbn_up_workdir }}/vtas-env/env/fandango_mcbn'
     dest: '{{ mcbn_up_vtas_env_dir }}'
     remote_src: true
 
