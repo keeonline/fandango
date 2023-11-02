@@ -28,10 +28,11 @@
     dest: '{{ mcbn_up_vtas_env_dir }}'
     remote_src: true
 
-# - name: Start the application
-#   ansible.builtin.command:
-#     chdir: '~/fandango/{{ fandango_up_env }}/fandango'
-#     cmd: docker-compose up -d
+- name: Start the MCBN VTAS environment
+  ansible.builtin.uri:
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/start
+    method: POST
+    status_code: 200
 
 # - name: Remove the environment working directory
 #   ansible.builtin.file:
