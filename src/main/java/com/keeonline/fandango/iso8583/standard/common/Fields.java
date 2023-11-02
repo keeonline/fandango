@@ -171,13 +171,17 @@ public interface Fields {
 	public static final String NATIONAL_POINT_OF_SERVICE_GEOGRAPHIC_DATA_DESC = "National Point-of-Service Geographic Data";
 	public static final String NATIONAL_POINT_OF_SERVICE_GEOGRAPHIC_DATA_NAME = "F59";
 
-	public static final int ADDITIONAL_POS_INFORMATION = 60;
-	public static final String ADDITIONAL_POS_INFORMATION_DESC = "Additional POS Information";
-	public static final String ADDITIONAL_POS_INFORMATION_NAME = "F60";
+	// public static final int ADDITIONAL_POS_INFORMATION = 60;
+	// public static final String ADDITIONAL_POS_INFORMATION_DESC = "Additional POS Information";
+	// public static final String ADDITIONAL_POS_INFORMATION_NAME = "F60";
 
-	public static final int OTHER_AMOUNTS = 61;
-	public static final String OTHER_AMOUNTS_DESC = "Other Amounts";
-	public static final String OTHER_AMOUNTS_NAME = "F61";
+	// public static final int OTHER_AMOUNTS = 61;
+	// public static final String OTHER_AMOUNTS_DESC = "Other Amounts";
+	// public static final String OTHER_AMOUNTS_NAME = "F61";
+
+	public static final int POINT_OF_SERVICE_DATA = 61;
+	public static final String POINT_OF_SERVICE_DATA_DESC = "Additional POS Information";
+	public static final String POINT_OF_SERVICE_DATA_NAME = "F61";
 
 	public static final int CUSTOM_PAYMENT_SERVICE_FIELDS = 62;
 	public static final String CUSTOM_PAYMENT_SERVICE_FIELDS_DESC = "Custom Payment Service Fields";

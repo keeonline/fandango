@@ -139,6 +139,15 @@ public class McbnTransformer extends MessageTransformer {
 		// //...
 		   
 		primitiveSpec = new PrimitiveSpec();		
+		primitiveSpec.setName("DE10");
+		primitiveSpec.setDescription("Conversion Rate, Cardholder Billing");	
+		primitiveSpec.addAttribute("value-regex","^[\\.0-9]{1,8}$");
+		primitiveSpec.addAttribute("length","8");
+		primitiveSpec.addAttribute("code-page","cp1047");
+		primitiveSpec.setTransformer("com.keeonline.fandango.iso8583.field.transformer.amount.ConversionRate");
+		messageSpec.addFieldSpec(primitiveSpec);
+		
+		primitiveSpec = new PrimitiveSpec();		
 		primitiveSpec.setName("DE11");
 		primitiveSpec.setDescription("System Trace Audit Number (STAN)");	
 		primitiveSpec.addAttribute("value-regex","^\\d{6}$");
@@ -159,6 +168,15 @@ public class McbnTransformer extends MessageTransformer {
 		primitiveSpec = new PrimitiveSpec();		
 		primitiveSpec.setName("DE13");
 		primitiveSpec.setDescription("Date, Local Transaction");	
+		primitiveSpec.addAttribute("value-regex","^\\d{4}$");
+		primitiveSpec.addAttribute("format-string","MMdd");
+		primitiveSpec.addAttribute("code-page","cp1047");
+		primitiveSpec.setTransformer("com.keeonline.fandango.iso8583.field.transformer.temporal.DateString");
+		messageSpec.addFieldSpec(primitiveSpec);
+		
+		primitiveSpec = new PrimitiveSpec();		
+		primitiveSpec.setName("DE14");
+		primitiveSpec.setDescription("Date, Expiration");	
 		primitiveSpec.addAttribute("value-regex","^\\d{4}$");
 		primitiveSpec.addAttribute("format-string","MMdd");
 		primitiveSpec.addAttribute("code-page","cp1047");
@@ -278,8 +296,25 @@ public class McbnTransformer extends MessageTransformer {
 		primitiveSpec.addAttribute("code-page","cp1047");
 		primitiveSpec.setTransformer("com.keeonline.fandango.iso8583.field.transformer.ans.AnsString");
 		messageSpec.addFieldSpec(primitiveSpec);		   
-		// //...
 
+		complexSpec = new ComplexSpec();		
+		complexSpec.setName("DE43");
+		complexSpec.setDescription("Card Acceptor Name/Location for ATM Transactions");	
+		complexSpec.setTransformer("com.keeonline.fandango.iso8583.scheme.transformer.McbnCardAcceptorNameLocation");
+		messageSpec.addFieldSpec(complexSpec);
+		
+		//...
+
+		primitiveSpec = new PrimitiveSpec();		
+		primitiveSpec.setName("DE48");
+		primitiveSpec.setDescription("Additional Data—Private Use");	
+		primitiveSpec.addAttribute("value-regex","^[a-zA-Z0-9]{99}$");
+		primitiveSpec.addAttribute("length-min","1");
+		primitiveSpec.addAttribute("length-max","99");
+		primitiveSpec.addAttribute("code-page","cp1047");
+		primitiveSpec.setTransformer("com.keeonline.fandango.iso8583.field.transformer.ans.AnsStringLLLvar");
+		messageSpec.addFieldSpec(primitiveSpec);
+		//...
 
 		primitiveSpec = new PrimitiveSpec();		
 		primitiveSpec.setName("DE49");
@@ -300,10 +335,21 @@ public class McbnTransformer extends MessageTransformer {
 		messageSpec.addFieldSpec(primitiveSpec);
 
 		primitiveSpec = new PrimitiveSpec();		
+		primitiveSpec.setName("DE61");
+		primitiveSpec.setDescription("Point-of-Service (POS) Data");	
+		primitiveSpec.addAttribute("value-regex","^[a-zA-Z0-9]{26}$");
+		primitiveSpec.addAttribute("length-min","1");
+		primitiveSpec.addAttribute("length-max","26");
+		primitiveSpec.addAttribute("code-page","cp1047");
+		primitiveSpec.setTransformer("com.keeonline.fandango.iso8583.field.transformer.ans.AnsStringLLLvar");
+		messageSpec.addFieldSpec(primitiveSpec);
+		//...
+		
+		primitiveSpec = new PrimitiveSpec();		
 		primitiveSpec.setName("DE63");
 		primitiveSpec.setDescription("Network Data");	
 		primitiveSpec.addAttribute("value-regex","^[a-zA-Z0-9]{12}$");
-		primitiveSpec.addAttribute("length-min","12");
+		primitiveSpec.addAttribute("length-min","1");
 		primitiveSpec.addAttribute("length-max","12");
 		primitiveSpec.addAttribute("code-page","cp1047");
 		primitiveSpec.setTransformer("com.keeonline.fandango.iso8583.field.transformer.ans.AnsStringLLLvar");

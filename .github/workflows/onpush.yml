@@ -51,10 +51,46 @@ jobs:
     name: Deploy VTAS environment
     needs: [build-fandango]
     runs-on: ubuntu-latest
+    environment: DEMO
     steps:
       - name: Checkout source code
-        run: echo This is deploy-vtas-environment
-
+        uses: actions/checkout@v4
+      - name: Setup Ansible on GHR
+        run: |
+          sudo apt update
+          sudo apt install software-properties-common
+          sudo add-apt-repository --yes --update ppa:ansible/ansible
+          sudo apt install ansible
+      - name: Setup Azure CLI on GHR
+        run: |
+          sudo apt-get update
+          sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
+          sudo mkdir -p /etc/apt/keyrings
+          curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
+          sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
+          AZ_DIST=$(lsb_release -cs)
+          echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+          sudo apt-get update
+          sudo apt-get install azure-cli          
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+            client-id: ${{ secrets.DEMO_CLIENT_ID }}
+            tenant-id: ${{ secrets.TENANT_ID }}
+            subscription-id: ${{ secrets.SUBSCRIPTION_ID }}                                            
+      - name: Deploy the VTAS MCBN environment service
+        env:
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+          AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.DEMO_CLIENT_ID }}
+        working-directory: ./ansible
+        run: |
+          echo [linux] > hosts
+          echo vtas ansible_host=$(az vm show -d -g keeonline-rg -n keeonline-vtas-vm --query publicIps -o tsv) >> hosts
+          echo "" >> hosts
+          cat hosts
+          ansible-playbook -i hosts -v mcbn-up.yml 
+    
   provision-fandango-infrastructure:
     name: Provision Fandango infrastructure
     needs: [build-fandango]
@@ -66,7 +102,6 @@ jobs:
       ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -87,20 +122,15 @@ jobs:
     needs: [provision-fandango-infrastructure]
     runs-on: ubuntu-latest
     environment: DEMO
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
-
       - name: Setup Ansible on GHR
         run: |
           sudo apt update
           sudo apt install software-properties-common
           sudo add-apt-repository --yes --update ppa:ansible/ansible
           sudo apt install ansible
-          # sudo ansible-galaxy collection install azure.azcollection --force
-          # sudo pip3 install -r /root/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
-
       - name: Setup Azure CLI on GHR
         run: |
           sudo apt-get update
@@ -111,15 +141,13 @@ jobs:
           AZ_DIST=$(lsb_release -cs)
           echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
           sudo apt-get update
-          sudo apt-get install azure-cli
-          
+          sudo apt-get install azure-cli          
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
             client-id: ${{ secrets.DEMO_CLIENT_ID }}
             tenant-id: ${{ secrets.TENANT_ID }}
-            subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-                                            
+            subscription-id: ${{ secrets.SUBSCRIPTION_ID }}                                            
       - name: Start the Fandango service
         env:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
@@ -128,23 +156,13 @@ jobs:
         working-directory: ./ansible
         run: |
           VTAS_HOST=$(az vm show -d -g keeonline-rg -n keeonline-vtas-vm --query publicIps -o tsv)
-          echo [linux] >> hosts
+          echo [linux] > hosts
           echo application ansible_host=$(az vm show -d -g keeonline-rg -n keeonline-app-vm --query publicIps -o tsv) >> hosts
-          # echo vtas ansible_host=$(az vm show -d -g keeonline-rg -n keeonline-vtas-vm --query publicIps -o tsv) >> hosts
           echo vtas ansible_host=${VTAS_HOST} >> hosts
           echo "" >> hosts
           cat hosts
           ansible-playbook -i hosts -v fandango-up.yml -e "fandango_up_payments_baseurl=http://${VTAS_HOST}:12221" 
                               
-      # - name: Start the Fandango service
-      #   working-directory: ./ansible
-      #   env:
-      #     AZURE_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      #     AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}
-      #     AZURE_CLIENT_ID: ${{ secrets.DEMO_CLIENT_ID }}
-      #   run: ansible-playbook -i hosts -v fandango-up.yml
-      #
-
   execute-fandango-sit:
     name: Execute Fandango SIT
     needs: [deploy-vtas-environment,deploy-fandango]

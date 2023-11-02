@@ -400,7 +400,7 @@ public abstract class MessageTemplateOld {
 //				setIntegratedCircuitCardRelatedData(); return; 
 //			case Iso8583Fields.NATIONAL_POINT_OF_SERVICE_GEOGRAPHIC_DATA:
 //				setNationalPointOfServiceGeograhicData(); return; 
-			case Fields.ADDITIONAL_POS_INFORMATION:
+			case Fields.POINT_OF_SERVICE_DATA:
 				setAdditionalPosInformation((String)field); return; 
 //			case Iso8583Fields.OTHER_AMOUNTS:
 //				setOtherAmounts(); return; 
@@ -620,10 +620,10 @@ public abstract class MessageTemplateOld {
 				return getIntegratedCircuitCardRelatedData();
 			case Fields.NATIONAL_POINT_OF_SERVICE_GEOGRAPHIC_DATA:
 				return getNationalPointOfServiceGeograhicData();
-			case Fields.ADDITIONAL_POS_INFORMATION:
+			case Fields.POINT_OF_SERVICE_DATA:
 				return getAdditionalPosInformation();
-			case Fields.OTHER_AMOUNTS:
-				return getOtherAmounts();
+			// case Fields.OTHER_AMOUNTS:
+			// 	return getOtherAmounts();
 			case Fields.CUSTOM_PAYMENT_SERVICE_FIELDS:
 				return getCustomPaymentServiceFields();
 			case Fields.PRIVATE_USE_FIELDS:
@@ -1429,7 +1429,7 @@ public abstract class MessageTemplateOld {
 
 	public void setAdditionalPosInformation(String additionalPosInformation) {
 		this.additionalPosInformation = additionalPosInformation;
-		bitmaps.setFieldPresent(Fields.ADDITIONAL_POS_INFORMATION);
+		bitmaps.setFieldPresent(Fields.POINT_OF_SERVICE_DATA);
 	}
 
 	public boolean hasAdditionalPosInformation() {
@@ -1443,7 +1443,7 @@ public abstract class MessageTemplateOld {
 
 	public void setOtherAmounts(OtherAmounts otherAmounts) {
 		this.otherAmounts = otherAmounts;
-		bitmaps.setFieldPresent(Fields.OTHER_AMOUNTS);
+		// bitmaps.setFieldPresent(Fields.OTHER_AMOUNTS);
 	}
 
 	public boolean hasOtherAmounts() {

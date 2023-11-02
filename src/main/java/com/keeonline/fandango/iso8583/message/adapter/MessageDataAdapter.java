@@ -7,7 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import java.math.BigDecimal;
 import com.keeonline.fandango.iso8583.message.model.MessageData;
+import com.keeonline.fandango.iso8583.field.domain.complex.CardAcceptorNameLocation;
 import com.keeonline.fandango.iso8583.field.domain.complex.PosEntryModeCode;
 import com.keeonline.fandango.iso8583.field.domain.complex.ProcessingCode;
 import com.keeonline.fandango.iso8583.message.transformer.TransformedMessage;
@@ -63,8 +65,8 @@ public abstract class MessageDataAdapter {
 				messageData.setTransmissionDateAndTime((LocalDateTime) field); return; 
 //			case Iso8583Fields.CONVERSION_RATE_SETTLEMENT:
 //				setConversionRateSettlement(); return; 
-//			case Iso8583Fields.CONVERSION_RATE_CARDHOLDER_BILLING:
-//				setConversionRateCardholderBilling(); return; 
+			case Fields.CONVERSION_RATE_CARDHOLDER_BILLING:
+				messageData.setConversionRateCardholderBilling((BigDecimal) field); return; 
 			case Fields.SYSTEM_TRACE_AUDIT_NUMBER:
 				messageData.setSystemTraceAuditNumber((BigInteger) field); return; 
 			case Fields.TIME_LOCAL_TRANSACTION:
@@ -109,16 +111,16 @@ public abstract class MessageDataAdapter {
 				messageData.setCardAcceptorTerminalIdentification((String) field); return; 
 			case Fields.CARD_ACCEPTOR_IDENTIFICATION_CODE:
 				messageData.setCardAcceptorIdentificationCode((String) field); return; 
-//			case Iso8583Fields.CARD_ACCEPTOR_NAME_LOCATION:
-//				setCardAcceptorNameLocation(); return; 
+			case Fields.CARD_ACCEPTOR_NAME_LOCATION:
+				messageData.setCardAcceptorNameLocation((CardAcceptorNameLocation) field); return; 
 //			case Fields.ADDITIONAL_RESPONSE_DATA:
 //				setAdditionalResponseData((String) field); return; 
 //			case Iso8583Fields.TRACK_1_DATA: 
 //				setTrack1Data(); return; 
 //			case Iso8583Fields.AMOUNT_FEES:
 //				setAmountFees(); return; 
-//			case Iso8583Fields.ADDITIONAL_DATA_PRIVATE:
-//				setAdditionalDataPrivate(); return; 
+			case Fields.ADDITIONAL_DATA_PRIVATE:
+				messageData.setAdditionalDataPrivateUse((String) field); return; 
 //			case Iso8583Fields.CURRENCY_CODE_TRANSACTION:
 //				setCurrencyCodeTransaction(); return; 
 //			case Iso8583Fields.CURRENCY_CODE_SETTLEMENT:
@@ -135,8 +137,8 @@ public abstract class MessageDataAdapter {
 //				setIntegratedCircuitCardRelatedData(); return; 
 //			case Iso8583Fields.NATIONAL_POINT_OF_SERVICE_GEOGRAPHIC_DATA:
 //				setNationalPointOfServiceGeograhicData(); return; 
-//			case Fields.ADDITIONAL_POS_INFORMATION:
-//				setAdditionalPosInformation((String)field); return; 
+			case Fields.POINT_OF_SERVICE_DATA:
+				messageData.setPointOfServiceData((String) field); return; 
 //			case Iso8583Fields.OTHER_AMOUNTS:
 //				setOtherAmounts(); return; 
 //			case Fields.CUSTOM_PAYMENT_SERVICE_FIELDS:
@@ -280,8 +282,8 @@ public abstract class MessageDataAdapter {
 					return messageData.getTransmissionDateAndTime();
 				// case Fields.CONVERSION_RATE_SETTLEMENT:
 				// 	return messageData.getConversionRateSettlement();
-				// case Fields.CONVERSION_RATE_CARDHOLDER_BILLING:
-				// 	return messageData.getConversionRateCardholderBilling();
+				case Fields.CONVERSION_RATE_CARDHOLDER_BILLING:
+					return messageData.getConversionRateCardholderBilling();
 				case Fields.SYSTEM_TRACE_AUDIT_NUMBER:
 					return messageData.getSystemTraceAuditNumber();
 				case Fields.TIME_LOCAL_TRANSACTION:
@@ -326,16 +328,16 @@ public abstract class MessageDataAdapter {
 					return messageData.getCardAcceptorTerminalIdentification();
 				case Fields.CARD_ACCEPTOR_IDENTIFICATION_CODE:
 					return messageData.getCardAcceptorIdentificationCode();
-				// case Fields.CARD_ACCEPTOR_NAME_LOCATION:
-				// 	return messageData.getCardAcceptorNameLocation();
+				case Fields.CARD_ACCEPTOR_NAME_LOCATION:
+					return messageData.getCardAcceptorNameLocation();
 				// case Fields.ADDITIONAL_RESPONSE_DATA:
 				// 	return messageData.getAdditionalResponseData();
 				// case Fields.TRACK_1_DATA:
 				// 	return messageData.getTrack1Data();
 				// case Fields.AMOUNT_FEES:
 				// 	return messageData.getAmountFees();
-				// case Fields.ADDITIONAL_DATA_PRIVATE:
-				// 	return messageData.getAdditionalDataPrivate();
+				case Fields.ADDITIONAL_DATA_PRIVATE:
+					return messageData.getAdditionalDataPrivateUse();
 				// case Fields.CURRENCY_CODE_SETTLEMENT:
 				// 	return messageData.getCurrencyCodeSettlement();
 				// case Fields.CURRENCY_CODE_CARDHOLDER_BILLING:
@@ -350,8 +352,8 @@ public abstract class MessageDataAdapter {
 				// 	return messageData.getIntegratedCircuitCardRelatedData();
 				// case Fields.NATIONAL_POINT_OF_SERVICE_GEOGRAPHIC_DATA:
 				// 	return messageData.getNationalPointOfServiceGeograhicData();
-				// case Fields.ADDITIONAL_POS_INFORMATION:
-				// 	return messageData.getAdditionalPosInformation();
+				case Fields.POINT_OF_SERVICE_DATA:
+					return messageData.getPointOfServiceData();
 				// case Fields.OTHER_AMOUNTS:
 				// 	return messageData.getOtherAmounts();
 				// case Fields.CUSTOM_PAYMENT_SERVICE_FIELDS:

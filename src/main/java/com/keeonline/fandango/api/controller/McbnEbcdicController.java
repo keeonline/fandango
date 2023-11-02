@@ -35,7 +35,7 @@ public class McbnEbcdicController {
         System.out.println("**********************baseurl=" + baseUrl);
     }
     
-     @PostMapping(path = "/requests")
+    @PostMapping(path = "/requests")
     public ResponseEntity<MessageBytesDto> onRequest(@RequestBody MessageBytesDto requestBytesDto) {
 
         McbnService mcbnService = new McbnService();

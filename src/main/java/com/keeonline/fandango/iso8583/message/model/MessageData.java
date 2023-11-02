@@ -1,10 +1,12 @@
 package com.keeonline.fandango.iso8583.message.model;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import com.keeonline.fandango.iso8583.field.domain.complex.CardAcceptorNameLocation;
 import com.keeonline.fandango.iso8583.field.domain.complex.PosEntryModeCode;
 import com.keeonline.fandango.iso8583.field.domain.complex.ProcessingCode;
 import com.keeonline.fandango.iso8583.field.domain.financial.MonetaryAmount;
@@ -22,6 +24,8 @@ public class MessageData {
 	private MonetaryAmount amountCardholderBilling;
 
     private LocalDateTime transmissionDateAndTime;
+
+    private BigDecimal conversionRateCardholderBilling;
 
     private BigInteger systemTraceAuditNumber;
 
@@ -50,6 +54,12 @@ public class MessageData {
     private String cardAcceptorTerminalIdentification;
 
     private String cardAcceptorIdentificationCode;
+
+    private CardAcceptorNameLocation cardAcceptorNameLocation;
+
+    private String additionalDataPrivateUse;
+
+    private String pointOfServiceData;
 
     private String privateUseFields;
 
@@ -100,6 +110,14 @@ public class MessageData {
 
     public void setTransmissionDateAndTime(LocalDateTime transmissionDateAndTime) {
         this.transmissionDateAndTime = transmissionDateAndTime;
+    }
+
+    public BigDecimal getConversionRateCardholderBilling() {
+        return conversionRateCardholderBilling;
+    }
+
+    public void setConversionRateCardholderBilling(BigDecimal conversionRateCardholderBilling) {
+        this.conversionRateCardholderBilling = conversionRateCardholderBilling;
     }
 
     public BigInteger getSystemTraceAuditNumber() {
@@ -190,6 +208,14 @@ public class MessageData {
         this.cardAcceptorIdentificationCode = cardAcceptorIdentificationCode;
     }
 
+    public CardAcceptorNameLocation getCardAcceptorNameLocation() {
+        return cardAcceptorNameLocation;
+    }
+
+    public void setCardAcceptorNameLocation(CardAcceptorNameLocation cardAcceptorNameLocation) {
+        this.cardAcceptorNameLocation = cardAcceptorNameLocation;
+    }
+
     public String getPrivateUseFields() {
         return privateUseFields;
     }
@@ -220,6 +246,22 @@ public class MessageData {
 
     public void setDateConversion(LocalDate dateConversion) {
         this.dateConversion = dateConversion;
+    }
+
+    public String getAdditionalDataPrivateUse() {
+        return additionalDataPrivateUse;
+    }
+
+    public void setAdditionalDataPrivateUse(String additionalDataPrivateUse) {
+        this.additionalDataPrivateUse = additionalDataPrivateUse;
+    }
+
+    public String getPointOfServiceData() {
+        return pointOfServiceData;
+    }
+
+    public void setPointOfServiceData(String pointOfServiceData) {
+        this.pointOfServiceData = pointOfServiceData;
     }
 
 }
