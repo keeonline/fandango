@@ -1,0 +1,7 @@
+- name: Execute VTAS test
+  ansible.builtin.uri:
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/execute?sess_ctxt=incididunt&nowait=false&wc=truei&tc=MCBN.DEMO.PURCHASE.KEYED.APPROVED
+    method: POST
+    status_code: 200
+  retries: 5
+  delay: 5

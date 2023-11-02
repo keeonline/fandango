@@ -9,19 +9,5 @@
     method: GET
   register: fandango_sit_readiness
   until: fandango_sit_readiness.status == 200
-#  until: fandango_sit_readiness.json.state == "ready"
   retries: 36
   delay: 5
-
-- name: Send authorisation to Fandango
-  ansible.builtin.uri:
-    url: 'http://{{ hostvars[ "application" ].ansible_host }}:8080/fandango/mcbn/ebcdic/requests'
-    method: POST
-    body:
-      payload: F0F1F0F0763B440108C0A002F0F6F1F2F3F4F5F6F0F0F1F1F2F2F0F0F0F0F0F0F0F0F4F5F9F9F0F0F0F0F0F0F0F0F6F5F9F9F0F9F2F5F1F3F0F1F2F2F5F4F3F2F1F0F1F3F0F1F2F2F0F9F0F7F0F9F0F8F0F9F0F9F5F9F8F1F0F1F0F0F6F8F1F8F1F8F1F0F9F0F7F0F0F0F1F2F3F4F5C1C2C3C4C5C6C7C8C1C2C3C4C5C6C7C8F0F1F2F3F4F5F6F0F3F6F8F2F6F0F1F2D4C3C3F1F2F3F4F5F6F7F8F9
-    body_format: json
-  register: fandango_sit_auth_response
-
-- name: Show Fandango response
-  ansible.builtin.debug:
-    var: fandango_sit_auth_response

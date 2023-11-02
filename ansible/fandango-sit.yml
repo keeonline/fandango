@@ -1,6 +1,15 @@
-- name: Execute Fandango SIT
+- name: Execute Fandango SIT actions
   hosts: application
   roles:
     - fandango_sit
+
+- name: Execute VTAS tests
+  hosts: vtas
+  roles:
+    - mcbn_sit
+
+- name: Stop the Fandango SIT instance
+  hosts: application
+  roles:
     - fandango_down
 
