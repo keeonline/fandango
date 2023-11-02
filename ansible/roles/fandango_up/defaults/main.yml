@@ -1,3 +1,4 @@
 fandango_up_env: carlos
 fandango_up_branch: main
+fandango_up_mcbn_host: localhost
 fandango_up_payments_baseurl: http://payments:80
