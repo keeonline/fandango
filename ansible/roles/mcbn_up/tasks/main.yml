@@ -26,6 +26,7 @@
   ansible.builtin.copy:
     src: '{{ mcbn_up_workdir }}/vtas-env'
     dest: '{{ mcbn_up_vtas_env_dir }}'
+    remote_src: true
 
 # - name: Start the application
 #   ansible.builtin.command:
