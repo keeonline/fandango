@@ -32,7 +32,8 @@
   ansible.builtin.uri:
     url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/start
     method: POST
-    status_code: 200
+  register: mcbn_up_result
+  until: mcbn_up_result.status == 200
   retries: 36
   delay: 5
 
