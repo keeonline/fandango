@@ -33,6 +33,9 @@
     url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/start
     method: POST
     status_code: 200
+  retries: 36
+  delay: 5
+
 
 # - name: Remove the environment working directory
 #   ansible.builtin.file:
