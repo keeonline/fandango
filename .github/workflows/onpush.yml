@@ -48,7 +48,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/fandango:latest
          
   deploy-vtas-environment:
-    name: Deploy VTAS environment
+    name: Deploy MCBN environment (VTAS)
     needs: [build-fandango]
     runs-on: ubuntu-latest
     environment: DEMO
@@ -252,7 +252,7 @@ jobs:
     environment: DEMO
 
     steps:
-      - name: Decommission VTAS env
+      - name: Decommission MCBN environment (VTAS)
         run: echo decommissioning VTAS env
         
                       

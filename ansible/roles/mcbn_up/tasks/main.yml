@@ -11,7 +11,7 @@
 - name: Pull the Fandango GitHub repository
   ansible.builtin.git:
     repo: https://github.com/keeonline/vtas-env.git
-    dest: '{{ mcbn_up_workdir }}'
+    dest: '{{ mcbn_up_workdir }}/vtas-env'
     single_branch: yes
     version: '{{ mcbn_up_branch }}'
   environment:
