@@ -1,0 +1,2 @@
+MCBN_HOST=172.167.96.237
+PAYMENTS_BASE_URL=http://payments:80
