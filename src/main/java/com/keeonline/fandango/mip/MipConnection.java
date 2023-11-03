@@ -3,9 +3,11 @@ package com.keeonline.fandango.mip;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.time.LocalTime;
 
@@ -45,6 +47,13 @@ public class MipConnection extends Thread {
 
         System.out.println("****" + System.getenv("MCBN_HOST"));
 
+        try {
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return;
+        }
+
         while (true) {
             System.out.println(this.getName() + ": MipConnection thread is running");
             try {
@@ -54,38 +63,41 @@ public class MipConnection extends Thread {
                 in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 out = socket.getOutputStream();
 
-                lengthBytes[0] = in.readUnsignedByte();
-                lengthBytes[1] = in.readUnsignedByte();
 
-                int readlen = lengthBytes[0] << 8;
-                readlen += lengthBytes[1];
+                while (isConnected) {
+                    lengthBytes[0] = in.readUnsignedByte();
+                    lengthBytes[1] = in.readUnsignedByte();
 
-                System.out.println("Bytes to read=" + readlen);
+                    int readlen = lengthBytes[0] << 8;
+                    readlen += lengthBytes[1];
 
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0 ; i < readlen ; i++){
-                    sb.append(String.format("%02X",in.readUnsignedByte()));
+                    System.out.println("Bytes to read=" + readlen);
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0 ; i < readlen ; i++){
+                        sb.append(String.format("%02X",in.readUnsignedByte()));
+                    }
+
+                    System.out.println(sb.toString()); 
+
+                    String responseHexString = onRequest(sb.toString());
+
+                    byte[] responseBytes = new byte[responseHexString.length() / 2];
+                    byte[] responseLength = ByteBuffer.allocate(4).putInt(responseBytes.length).array();
+
+                    for (byte b : responseLength) {
+                        System.out.format("==================>>>> 0x%x ", b);
+                        }
+
+                    for (int i = 0; i < responseBytes.length; i++) {
+                        int index = i * 2;
+                        int val = Integer.parseInt(responseHexString.substring(index, index + 2), 16);
+                        responseBytes[i] = (byte)val;
+                    }
+
+                    out.write(responseLength,2,2);
+                    out.write(responseBytes);
                 }
-
-                System.out.println(sb.toString()); 
-
-                String responseHexString = onRequest(sb.toString());
-
-                byte[] responseBytes = new byte[responseHexString.length() / 2];
-                byte[] responseLength = ByteBuffer.allocate(4).putInt(responseBytes.length).array();
-
-                for (byte b : responseLength) {
-                    System.out.format("==================>>>> 0x%x ", b);
-                 }
-
-                for (int i = 0; i < responseBytes.length; i++) {
-                    int index = i * 2;
-                    int val = Integer.parseInt(responseHexString.substring(index, index + 2), 16);
-                    responseBytes[i] = (byte)val;
-                }
-
-                out.write(responseLength,2,2);
-                out.write(responseBytes);
                 
             } catch (Exception e) {
                 System.out.println(String.format("unable to connect to MCBN. time=%s", LocalTime.now().toString()));
