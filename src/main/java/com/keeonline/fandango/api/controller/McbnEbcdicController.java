@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.gson.Gson;
 import com.keeonline.fandango.api.model.MessageBytesDto;
 import com.keeonline.fandango.api.model.MessageDto;
 import com.keeonline.fandango.api.service.McbnService;
@@ -42,16 +43,16 @@ public class McbnEbcdicController {
         MessageBytesDto responseBytesDto = null;
 
 		try {
-            String url = String.format("%s/payments/request", baseUrl);
+            String url = String.format("%s/payments/requests", baseUrl);
             System.out.println("**********************requesturl=" + url);
 
-            MessageData requestData = mcbnService.parse(requestBytesDto.getPayload());
+            MessageData requestBody = mcbnService.parse(requestBytesDto.getPayload());
 
             RestTemplate restTemplate = new RestTemplate();
-            HttpEntity<MessageDto> requestDto = new HttpEntity<>(new MessageDto(requestData));
-            ResponseEntity<MessageDto> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestDto, MessageDto.class); 
+            HttpEntity<MessageData> requestEntity = new HttpEntity<>(requestBody);
+            ResponseEntity<MessageData> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MessageData.class); 
 
-            TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody().getData());
+            TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody());
 
             responseBytesDto = new MessageBytesDto(mappedResponse.getEncoded());
 
