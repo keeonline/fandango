@@ -49,7 +49,7 @@ jobs:
          
   deploy-vtas-environment:
     name: Deploy MCBN environment (VTAS)
-    needs: [build-fandango]
+    # needs: [build-fandango]
     runs-on: ubuntu-latest
     environment: DEMO
     steps:
@@ -93,7 +93,7 @@ jobs:
     
   provision-fandango-infrastructure:
     name: Provision Fandango infrastructure
-    needs: [build-fandango]
+    # needs: [build-fandango]
     runs-on: ubuntu-latest
     environment: DEMO
     env:
@@ -119,7 +119,7 @@ jobs:
   
   deploy-fandango:
     name: Deploy Fandango instance
-    needs: [provision-fandango-infrastructure]
+    needs: [build-fandango,provision-fandango-infrastructure]
     runs-on: ubuntu-latest
     environment: DEMO
     steps:
@@ -221,6 +221,7 @@ jobs:
       
   decommision-fandango-infrastructure:
     name: Decommission Fandango infrastructure
+    if: always()
     needs: [execute-fandango-sit]
     runs-on: ubuntu-latest
     environment: DEMO

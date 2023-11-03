@@ -3,6 +3,8 @@ services:
 
   payments:
     image: keeonline/payments
+    ports:
+      - 80:80
 
   fandango:
     image: keeonline/fandango

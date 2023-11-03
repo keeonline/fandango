@@ -14,6 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.gson.Gson;
 import com.keeonline.fandango.api.model.MessageBytesDto;
 import com.keeonline.fandango.api.model.MessageDto;
 import com.keeonline.fandango.api.service.McbnService;
@@ -111,11 +112,20 @@ public class MipConnection extends Thread {
             String url = String.format("%s/payments/requests", baseUrl);
             System.out.println("**********************requesturl=" + url);
 
+            System.out.println("\n\nhere0=======>>>\n" + requestHexString);
+
             MessageData requestBody = mcbnService.parse(requestHexString);
 
+            System.out.println("\n\nhere1=======>>>\n");
             RestTemplate restTemplate = new RestTemplate();
+            System.out.println("\n\nhere2=======>>>\n");
             HttpEntity<MessageData> requestEntity = new HttpEntity<>(requestBody);
+            System.out.println("\n\nhere3=======>>>\n" + url);
             ResponseEntity<MessageData> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MessageData.class); 
+
+            System.out.println("\n\n===========>>>\n");
+            System.out.println(responseEntity.getBody());
+            System.out.println("\n\n");
 
             TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody());
 
