@@ -1,8 +1,17 @@
-- name: Execute VTAS test
+- name: Execute VTAS approved auth test
   ansible.builtin.uri:
     url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/execute?sess_ctxt=incididunt&nowait=false&wc=truei&tc=MCBN.DEMO.PURCHASE.KEYED.APPROVED
     method: POST
-  register: mcbn_sit_result
-  until: mcbn_sit_result.status == 200
+  register: mcbn_sit_approved_result
+  until: mcbn_sit_approved_result.status == 200
+  retries: 5
+  delay: 5
+
+- name: Execute VTAS declined auth test
+  ansible.builtin.uri:
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/execute?sess_ctxt=incididunt&nowait=false&wc=truei&tc=MCBN.DEMO.PURCHASE.KEYED.DECLINED
+    method: POST
+  register: mcbn_sit_declined_result
+  until: mcbn_sit_declined_result.status == 200
   retries: 5
   delay: 5
