@@ -162,7 +162,7 @@ jobs:
           echo "" >> hosts
           cat hosts
           # ansible-playbook -i hosts -v fandango-up.yml -e "fandango_up_mcbn_host=${VTAS_HOST} fandango_up_payments_baseurl=http://${VTAS_HOST}:12221" 
-          ansible-playbook -i hosts -v fandango-up.yml -e "fandango_up_mcbn_host=${VTAS_HOST} fandango_up_payments_baseurl=http//payments:80" 
+          ansible-playbook -i hosts -v fandango-up.yml -e "fandango_up_mcbn_host=${VTAS_HOST} fandango_up_payments_baseurl=http://payments:80" 
                               
   execute-fandango-sit:
     name: Execute Fandango SIT

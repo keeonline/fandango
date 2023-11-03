@@ -2,12 +2,12 @@ version: "3.3"
 services:
 
   payments:
-    image: keeonline/payments
+    image: keeonline/payments:latest
     ports:
       - 80:80
 
   fandango:
-    image: keeonline/fandango
+    image: keeonline/fandango:latest
     ports:
       - 8080:8080
     environment:
