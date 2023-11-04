@@ -1,19 +1,19 @@
 - name: Remove the environment working directory, if it exists
   ansible.builtin.file:
-    path: '{{ mcbn_up_workdir }}/vtas-env'
+    path: '{{ vtas_up_workdir }}/vtas-env'
     state: absent
 
 - name: Ensure the working directory exists
   ansible.builtin.file:
-    path: '{{ mcbn_up_workdir }}'
+    path: '{{ vtas_up_workdir }}'
     state: directory
 
 - name: Pull the Fandango GitHub repository
   ansible.builtin.git:
     repo: https://github.com/keeonline/vtas-env.git
-    dest: '{{ mcbn_up_workdir }}/vtas-env'
+    dest: '{{ vtas_up_workdir }}/vtas-env'
     single_branch: yes
-    version: '{{ mcbn_up_branch }}'
+    version: '{{ vtas_up_branch }}'
   environment:
       GIT_TERMINAL_PROMPT: 0
 # TODO: add retry on pull ******************
@@ -22,18 +22,18 @@
 #   ansible.builtin.pause:
 #     seconds : 30
 
-- name: Copy the MCBN VTAS environment into the VTAS env directory
+- name: Copy the vtas VTAS environment into the VTAS env directory
   ansible.builtin.copy:
-    src: '{{ mcbn_up_workdir }}/vtas-env/env/fandango_mcbn'
-    dest: '{{ mcbn_up_vtas_env_dir }}'
+    src: '{{ vtas_up_workdir }}/vtas-env/env/fandango_vtas'
+    dest: '{{ vtas_up_vtas_env_dir }}'
     remote_src: true
 
-- name: Start the MCBN VTAS environment
+- name: Start the vtas VTAS environment
   ansible.builtin.uri:
-    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/start
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_vtas/start
     method: POST
-  register: mcbn_up_result
-  until: mcbn_up_result.status == 200
+  register: vtas_up_result
+  until: vtas_up_result.status == 200
   retries: 36
   delay: 5
 

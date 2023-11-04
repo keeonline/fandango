@@ -1,0 +1,13 @@
+- name: Prompt Fandango to initiate connection to card scheme
+  ansible.builtin.uri:
+    url: 'http://{{ hostvars[ "application" ].ansible_host }}:8080/fandango/mcbn/connect'
+    method: GET
+
+- name: Wait for Fandango readiness
+  ansible.builtin.uri:
+    url: 'http://{{ hostvars[ "application" ].ansible_host }}:8080/fandango/mcbn/state'
+    method: GET
+  register: fandango_sit_primer_readiness
+  until: fandango_sit_primer_readiness.status == 200
+  retries: 36
+  delay: 5

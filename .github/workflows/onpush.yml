@@ -89,7 +89,7 @@ jobs:
           echo vtas ansible_host=$(az vm show -d -g keeonline-rg -n keeonline-vtas-vm --query publicIps -o tsv) >> hosts
           echo "" >> hosts
           cat hosts
-          ansible-playbook -i hosts -v mcbn-up.yml 
+          ansible-playbook -i hosts -v vtas-up.yml 
     
   provision-fandango-infrastructure:
     name: Provision Fandango infrastructure

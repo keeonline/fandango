@@ -1,5 +1,0 @@
-- name: Deploy a VTAS environment
-  hosts: vtas
-  roles:
-    - mcbn_up
-

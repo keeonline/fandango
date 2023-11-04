@@ -1,13 +1,73 @@
-- name: Prompt Fandango to initiate connection to card scheme
+- name: Execute VTAS approved auth test (1)
   ansible.builtin.uri:
-    url: 'http://{{ hostvars[ "application" ].ansible_host }}:8080/fandango/mcbn/connect'
-    method: GET
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/execute?sess_ctxt=incididunt&nowait=false&wc=truei&tc=MCBN.DEMO.PURCHASE.KEYED.APPROVED
+    method: POST
+  register: fandango_sit_approved_result
+  until: fandango_sit_approved_result.status == 200
+  retries: 5
+  delay: 5
 
-- name: Wait for Fandango readiness
+- name: Pause for 5 seconds before starting next test case
+  ansible.builtin.pause:
+    seconds: 5
+
+- name: Execute VTAS declined auth test (1)
   ansible.builtin.uri:
-    url: 'http://{{ hostvars[ "application" ].ansible_host }}:8080/fandango/mcbn/state'
-    method: GET
-  register: fandango_sit_readiness
-  until: fandango_sit_readiness.status == 200
-  retries: 36
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/execute?sess_ctxt=incididunt&nowait=false&wc=truei&tc=MCBN.DEMO.PURCHASE.KEYED.DECLINED
+    method: POST
+  register: fandango_sit_declined_result
+  until: fandango_sit_declined_result.status == 200
+  retries: 5
+  delay: 5
+
+- name: Pause for 5 seconds before starting next test case
+  ansible.builtin.pause:
+    seconds: 5
+
+- name: Execute VTAS approved auth test (2)
+  ansible.builtin.uri:
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/execute?sess_ctxt=incididunt&nowait=false&wc=truei&tc=MCBN.DEMO.PURCHASE.KEYED.APPROVED
+    method: POST
+  register: fandango_sit_approved_result
+  until: fandango_sit_approved_result.status == 200
+  retries: 5
+  delay: 5
+
+- name: Pause for 5 seconds before starting next test case
+  ansible.builtin.pause:
+    seconds: 5
+
+- name: Execute VTAS declined auth test (2)
+  ansible.builtin.uri:
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/execute?sess_ctxt=incididunt&nowait=false&wc=truei&tc=MCBN.DEMO.PURCHASE.KEYED.DECLINED
+    method: POST
+  register: fandango_sit_declined_result
+  until: fandango_sit_declined_result.status == 200
+  retries: 5
+  delay: 5
+
+- name: Pause for 5 seconds before starting next test case
+  ansible.builtin.pause:
+    seconds: 5
+
+- name: Execute VTAS approved auth test (3)
+  ansible.builtin.uri:
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/execute?sess_ctxt=incididunt&nowait=false&wc=truei&tc=MCBN.DEMO.PURCHASE.KEYED.APPROVED
+    method: POST
+  register: fandango_sit_approved_result
+  until: fandango_sit_approved_result.status == 200
+  retries: 5
+  delay: 5
+
+- name: Pause for 5 seconds before starting next test case
+  ansible.builtin.pause:
+    seconds: 5
+
+- name: Execute VTAS declined auth test (3)
+  ansible.builtin.uri:
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/execute?sess_ctxt=incididunt&nowait=false&wc=truei&tc=MCBN.DEMO.PURCHASE.KEYED.DECLINED
+    method: POST
+  register: fandango_sit_declined_result
+  until: fandango_sit_declined_result.status == 200
+  retries: 5
   delay: 5

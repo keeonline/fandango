@@ -1,0 +1,3 @@
+vtas_up_branch: main
+vtas_up_workdir: /opt/temp
+vtas_up_vtas_env_dir: /usr/vtas_base/env
