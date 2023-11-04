@@ -22,18 +22,18 @@
 #   ansible.builtin.pause:
 #     seconds : 30
 
-- name: Copy the vtas VTAS environment into the VTAS env directory
+- name: Copy the fandango_mcbn VTAS environment into the VTAS env directory
   ansible.builtin.copy:
-    src: '{{ vtas_up_workdir }}/vtas-env/env/fandango_vtas'
+    src: '{{ vtas_up_workdir }}/vtas-env/env/fandango_mcbn'
     dest: '{{ vtas_up_vtas_env_dir }}'
     remote_src: true
 
-- name: Start the vtas VTAS environment
+- name: Start the fandango_mcbn VTAS environment
   ansible.builtin.uri:
-    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_vtas/start
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_mcbn/start
     method: POST
-  register: vtas_up_result
-  until: vtas_up_result.status == 200
+  register: vtas_up_fandango_mcbn_result
+  until: vtas_up_fandango_mcbn_result.status == 200
   retries: 36
   delay: 5
 
