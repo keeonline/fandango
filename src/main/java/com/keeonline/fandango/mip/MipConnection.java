@@ -43,7 +43,6 @@ public class MipConnection extends Thread {
         OutputStream out;
 
         int [] lengthBytes = new int[2];
-        int [] messageBytes = new int[2000];
 
         System.out.println("****" + System.getenv("MCBN_HOST"));
 
@@ -85,10 +84,6 @@ public class MipConnection extends Thread {
                     byte[] responseBytes = new byte[responseHexString.length() / 2];
                     byte[] responseLength = ByteBuffer.allocate(4).putInt(responseBytes.length).array();
 
-                    for (byte b : responseLength) {
-                        System.out.format("==================>>>> 0x%x ", b);
-                        }
-
                     for (int i = 0; i < responseBytes.length; i++) {
                         int index = i * 2;
                         int val = Integer.parseInt(responseHexString.substring(index, index + 2), 16);
@@ -124,26 +119,17 @@ public class MipConnection extends Thread {
             String url = String.format("%s/payments/requests", baseUrl);
             System.out.println("**********************requesturl=" + url);
 
-            System.out.println("\n\nhere0=======>>>\n" + requestHexString);
-
             MessageData requestBody = mcbnService.parse(requestHexString);
 
-            System.out.println("\n\nhere1=======>>>\n");
             RestTemplate restTemplate = new RestTemplate();
-            System.out.println("\n\nhere2=======>>>\n");
             HttpEntity<MessageData> requestEntity = new HttpEntity<>(requestBody);
-            System.out.println("\n\nhere3=======>>>\n" + url);
             ResponseEntity<MessageData> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MessageData.class); 
 
-            System.out.println("\n\n===========>>>\n");
-            System.out.println(responseEntity.getBody());
-            System.out.println("\n\n");
+            // System.out.println(responseEntity.getBody());
 
             TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody());
 
             responseHexString = mappedResponse.getEncoded();
-
-            System.out.println("\n\n>>>>>>>>>>>\n" +responseHexString);
 
         } catch (FieldTransformerException e) {
             // TODO Auto-generated catch block
