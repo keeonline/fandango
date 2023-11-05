@@ -1,15 +1,18 @@
 - name: Execute Fandango SIT actions
   hosts: application
+  gather_facts: no
   roles:
     - fandango_sit_primer
 
 - name: Execute VTAS tests
   hosts: vtas
+  gather_facts: no
   roles:
     - fandango_sit
 
 - name: Stop the Fandango SIT instance
   hosts: application
+  gather_facts: no
   roles:
     - fandango_down
 

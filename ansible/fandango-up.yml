@@ -1,5 +1,6 @@
 - name: Deploy a Fandango instance
   hosts: application
+  gather_facts: no
   roles:
     - fandango_up
 

@@ -1,5 +1,6 @@
 - name: Decommission the VTAS environments
   hosts: vtas
+  gather_facts: no
   roles:
     - vtas_down
 
