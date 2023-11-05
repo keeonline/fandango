@@ -273,8 +273,7 @@ jobs:
   
   decommision-vtas-environments:
     name: Decommission VTAS environments
-    if: always()
-    needs: [execute-fandango-sit]
+    needs: [deploy-vtas-environment,execute-fandango-sit]
     runs-on: ubuntu-latest
     environment: DEMO
     steps:
