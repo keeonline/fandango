@@ -16,11 +16,6 @@
     version: '{{ vtas_up_branch }}'
   environment:
       GIT_TERMINAL_PROMPT: 0
-# TODO: add retry on pull ******************
-
-# - name: Pause for 30 seconds so docker is started (to be replaced with wait_for)
-#   ansible.builtin.pause:
-#     seconds : 30
 
 - name: Copy the fandango_mcbn VTAS environment into the VTAS env directory
   ansible.builtin.copy:
@@ -34,11 +29,20 @@
     method: POST
   register: vtas_up_fandango_mcbn_result
   until: vtas_up_fandango_mcbn_result.status == 200
-  retries: 36
+  retries: 10
   delay: 5
 
+- name: Copy the fandango_api_rsp VTAS environment into the VTAS env directory
+  ansible.builtin.copy:
+    src: '{{ vtas_up_workdir }}/vtas-env/env/fandango_api_rsp'
+    dest: '{{ vtas_up_vtas_env_dir }}'
+    remote_src: true
 
-# - name: Remove the environment working directory
-#   ansible.builtin.file:
-#     path: '~/fandango/{{ fandango_up_env }}'
-#     state: absent
+- name: Start the fandango_mcbn VTAS environment
+  ansible.builtin.uri:
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_api_rsp/start
+    method: POST
+  register: vtas_up_fandango_api_rsp_result
+  until: vtas_up_fandango_api_rsp_result.status == 200
+  retries: 10
+  delay: 5
