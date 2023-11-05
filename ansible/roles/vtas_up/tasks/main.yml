@@ -38,7 +38,7 @@
     dest: '{{ vtas_up_vtas_env_dir }}'
     remote_src: true
 
-- name: Start the fandango_mcbn VTAS environment
+- name: Start the fandango_api_rsp VTAS environment
   ansible.builtin.uri:
     url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_api_rsp/start
     method: POST
