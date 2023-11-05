@@ -9,7 +9,7 @@ terraform {
       resource_group_name  = "keeonline-tfstate"
       storage_account_name = "tfstate161123"
       container_name       = "tfstate"
-      key                  = "app.tfstate"
+      key                  = "core.tfstate"
   }
 
 }
