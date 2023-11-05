@@ -11,3 +11,17 @@
   ansible.builtin.file:
     path: '{{ vtas_down_vtas_env_dir }}/fandango_mcbn'
     state: absent
+
+- name: Stop the fandango_api_rsp VTAS environment
+  ansible.builtin.uri:
+    url: http://localhost:8084/restapi/CmdService/v1/envs/fandango_api_rsp/stop
+    method: POST
+  register: vtas_down_fandango_api_rsp_result
+  until: vtas_down_fandango_api_rsp_result.status == 200
+  retries: 10
+  delay: 5
+  
+- name: Remove the fandango_api_rsp environment directory
+  ansible.builtin.file:
+    path: '{{ vtas_down_vtas_env_dir }}/fandango_api_rsp'
+    state: absent
