@@ -205,10 +205,9 @@ jobs:
                               
   execute-fandango-sit:
     name: Execute Fandango SIT
-    needs: [deploy-vtas-environment,deploy-fandango]
+    needs: [retrieve-vtas-ip,provision-fandango-infrastructure,deploy-vtas-environment,deploy-fandango]
     runs-on: ubuntu-latest
     environment: DEMO
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -277,7 +276,7 @@ jobs:
   
   decommision-vtas-environments:
     name: Decommission VTAS environments
-    needs: [deploy-vtas-environment,execute-fandango-sit]
+    needs: [retrieve-vtas-ip,deploy-vtas-environment,execute-fandango-sit]
     runs-on: ubuntu-latest
     environment: DEMO
     steps:
