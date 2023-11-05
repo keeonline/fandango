@@ -77,7 +77,6 @@ jobs:
     name: Deploy VTAS environments
     needs: [retrieve-vtas-ip]
     runs-on: ubuntu-latest
-#    environment: DEMO
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -87,23 +86,6 @@ jobs:
           sudo apt install software-properties-common
           sudo add-apt-repository --yes --update ppa:ansible/ansible
           sudo apt install ansible
-      # - name: Setup Azure CLI on GHR
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
-      #     sudo mkdir -p /etc/apt/keyrings
-      #     curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
-      #     sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
-      #     AZ_DIST=$(lsb_release -cs)
-      #     echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
-      #     sudo apt-get update
-      #     sudo apt-get install azure-cli          
-      # - name: 'Az CLI login'
-      #   uses: azure/login@v1
-      #   with:
-      #       client-id: ${{ secrets.DEMO_CLIENT_ID }}
-      #       tenant-id: ${{ secrets.TENANT_ID }}
-      #       subscription-id: ${{ secrets.SUBSCRIPTION_ID }}                                            
       - name: Deploy the VTAS MCBN environment service
         env:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
@@ -122,7 +104,6 @@ jobs:
   provision-fandango-infrastructure:
     name: Provision Fandango infrastructure
     runs-on: ubuntu-latest
-#    environment: DEMO
     env:
       ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
@@ -157,7 +138,6 @@ jobs:
     name: Deploy Fandango instance
     needs: [retrieve-vtas-ip,build-fandango,provision-fandango-infrastructure]
     runs-on: ubuntu-latest
-#    environment: DEMO
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -167,23 +147,6 @@ jobs:
           sudo apt install software-properties-common
           sudo add-apt-repository --yes --update ppa:ansible/ansible
           sudo apt install ansible
-      # - name: Setup Azure CLI on GHR
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
-      #     sudo mkdir -p /etc/apt/keyrings
-      #     curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
-      #     sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
-      #     AZ_DIST=$(lsb_release -cs)
-      #     echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
-      #     sudo apt-get update
-      #     sudo apt-get install azure-cli          
-      # - name: 'Az CLI login'
-      #   uses: azure/login@v1
-      #   with:
-      #       client-id: ${{ secrets.DEMO_CLIENT_ID }}
-      #       tenant-id: ${{ secrets.TENANT_ID }}
-      #       subscription-id: ${{ secrets.SUBSCRIPTION_ID }}                                            
       - name: Start the Fandango service
         env:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
@@ -206,7 +169,6 @@ jobs:
     name: Execute Fandango SIT
     needs: [retrieve-vtas-ip,provision-fandango-infrastructure,deploy-vtas-environment,deploy-fandango]
     runs-on: ubuntu-latest
-#    environment: DEMO
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -216,23 +178,6 @@ jobs:
           sudo apt install software-properties-common
           sudo add-apt-repository --yes --update ppa:ansible/ansible
           sudo apt install ansible
-      # - name: Setup Azure CLI on GHR
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
-      #     sudo mkdir -p /etc/apt/keyrings
-      #     curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
-      #     sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
-      #     AZ_DIST=$(lsb_release -cs)
-      #     echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
-      #     sudo apt-get update
-      #     sudo apt-get install azure-cli          
-      # - name: 'Az CLI login'
-      #   uses: azure/login@v1
-      #   with:
-      #       client-id: ${{ secrets.DEMO_CLIENT_ID }}
-      #       tenant-id: ${{ secrets.TENANT_ID }}
-      #       subscription-id: ${{ secrets.SUBSCRIPTION_ID }}                                            
       - name: 'Create hosts file'
         working-directory: ./ansible
         env:
@@ -254,7 +199,6 @@ jobs:
     if: always()
     needs: [execute-fandango-sit]
     runs-on: ubuntu-latest
-#    environment: DEMO
     env:
       ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
@@ -277,7 +221,6 @@ jobs:
     name: Decommission VTAS environments
     needs: [retrieve-vtas-ip,deploy-vtas-environment,execute-fandango-sit]
     runs-on: ubuntu-latest
-#    environment: DEMO
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -287,23 +230,6 @@ jobs:
           sudo apt install software-properties-common
           sudo add-apt-repository --yes --update ppa:ansible/ansible
           sudo apt install ansible
-      # - name: Setup Azure CLI on GHR
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
-      #     sudo mkdir -p /etc/apt/keyrings
-      #     curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg > /dev/null
-      #     sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
-      #     AZ_DIST=$(lsb_release -cs)
-      #     echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_DIST main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
-      #     sudo apt-get update
-      #     sudo apt-get install azure-cli         
-      # - name: 'Az CLI login'
-      #   uses: azure/login@v1
-      #   with:
-      #       client-id: ${{ secrets.DEMO_CLIENT_ID }}
-      #       tenant-id: ${{ secrets.TENANT_ID }}
-      #       subscription-id: ${{ secrets.SUBSCRIPTION_ID }}                                            
       - name: 'Create hosts file'
         working-directory: ./ansible
         env:
