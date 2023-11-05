@@ -71,7 +71,7 @@ jobs:
           TEMP=$(terraform output vtas_host_ip_addr)
           VTAS_HOST_IP_ADDR=$(echo $TEMP | tr -d '"')
           # echo "::set-output name=vtas_ip_addr::${VTAS_HOST_IP_ADDR}"
-          echo "vtas_ip_addr=${VTAS_HOST_IP_ADDR}"" >> $GITHUB_OUTPUT  
+          echo "vtas_ip_addr=${VTAS_HOST_IP_ADDR}" >> $GITHUB_OUTPUT  
           echo vtas_ip_addr=${VTAS_HOST_IP_ADDR}
 
   deploy-vtas-environment:
@@ -133,7 +133,7 @@ jobs:
           TEMP=$(terraform output app_host_ip_addr)
           APP_HOST_IP_ADDR=$(echo $TEMP | tr -d '"')
           # echo "::set-output name=app_ip_addr::${APP_HOST_IP_ADDR}"
-          echo "app_ip_addr=${APP_HOST_IP_ADDR}"" >> $GITHUB_OUTPUT  
+          echo "app_ip_addr=${APP_HOST_IP_ADDR}" >> $GITHUB_OUTPUT  
           echo app_ip_addr=${APP_HOST_IP_ADDR}
 
   deploy-fandango:
