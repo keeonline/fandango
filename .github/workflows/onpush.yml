@@ -1,7 +1,7 @@
 name: Fandango SIT (on push)
 
-# on: workflow_dispatch
-on: push
+on: workflow_dispatch
+# on: push
 
 permissions:
   id-token: write
@@ -48,7 +48,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/fandango:latest
          
   deploy-vtas-environment:
-    name: Deploy MCBN environment (VTAS)
+    name: Deploy VTAS environments
     # needs: [build-fandango]
     runs-on: ubuntu-latest
     environment: DEMO
