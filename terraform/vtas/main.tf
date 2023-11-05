@@ -18,6 +18,7 @@ provider "azurerm" {
   features {}
 }
 
-data "azurerm_linux_virtual_machine" "vtas_vm" {
-  name                 = "keeonline-vtas-vm"
+data "azurerm_virtual_machine" "vtas_vm" {
+  name = "keeonline-vtas-vm"
+  resource_group_name = "keeonline-rg"
 }
