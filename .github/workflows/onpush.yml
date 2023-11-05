@@ -156,7 +156,7 @@ jobs:
 
   deploy-fandango:
     name: Deploy Fandango instance
-    needs: [build-fandango,provision-fandango-infrastructure]
+    needs: [retrieve-vtas-ip,build-fandango,provision-fandango-infrastructure]
     runs-on: ubuntu-latest
     environment: DEMO
     steps:
