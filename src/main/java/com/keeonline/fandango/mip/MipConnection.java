@@ -121,7 +121,12 @@ public class MipConnection extends Thread {
 
             MessageData requestBody = mcbnService.parse(requestHexString);
 
+            Gson gson = new Gson();
+            String body = gson.toJson(requestBody);
+    
+
             RestTemplate restTemplate = new RestTemplate();
+            // HttpEntity<MessageData> requestEntity = new HttpEntity<>(requestBody);
             HttpEntity<MessageData> requestEntity = new HttpEntity<>(requestBody);
             ResponseEntity<MessageData> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MessageData.class); 
 
