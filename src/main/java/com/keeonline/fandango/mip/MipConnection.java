@@ -127,7 +127,8 @@ public class MipConnection extends Thread {
 
             RestTemplate restTemplate = new RestTemplate();
             // HttpEntity<MessageData> requestEntity = new HttpEntity<>(requestBody);
-            HttpEntity<MessageData> requestEntity = new HttpEntity<>(requestBody);
+            // ResponseEntity<MessageData> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MessageData.class); 
+            HttpEntity<String> requestEntity = new HttpEntity<>(body);
             ResponseEntity<MessageData> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MessageData.class); 
 
             // System.out.println(responseEntity.getBody());
