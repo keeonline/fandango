@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.time.LocalTime;
 
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -121,19 +122,25 @@ public class MipConnection extends Thread {
 
             MessageData requestBody = mcbnService.parse(requestHexString);
 
-            Gson gson = new Gson();
-            String body = gson.toJson(requestBody);
-    
-
             RestTemplate restTemplate = new RestTemplate();
             // HttpEntity<MessageData> requestEntity = new HttpEntity<>(requestBody);
             // ResponseEntity<MessageData> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MessageData.class); 
-            HttpEntity<String> requestEntity = new HttpEntity<>(body);
-            ResponseEntity<MessageData> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MessageData.class); 
+
+            Gson gson = new Gson();
+            String body = gson.toJson(requestBody);
+
+            HttpHeaders requestHeaders = new HttpHeaders();
+            requestHeaders.set("Content-Type","application/json");
+
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(body,requestHeaders);
+            ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class); 
 
             // System.out.println(responseEntity.getBody());
+            MessageData messageData = gson.fromJson(responseEntity.getBody(),MessageData.class);
 
-            TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody());
+            // TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody());
+            TransformedMessage mappedResponse = mcbnService.map(messageData);
 
             responseHexString = mappedResponse.getEncoded();
 
