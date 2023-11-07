@@ -152,6 +152,9 @@ public class MipConnection extends Thread {
             if (messageData.getMessageTypeIdentifier().equals("110")) {
                 messageData.setMessageTypeIdentifier("0110");
             }
+            if (!messageData.getResponseCode().equals("00")) {
+                messageData.setAuthorizationIdentificationResponse(null);
+            }
             if (convRate != null) {
                 messageData.setConversionRateCardholderBilling(convRate);
             }
