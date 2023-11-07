@@ -145,6 +145,9 @@ public class MipConnection extends Thread {
 
             // System.out.println(responseEntity.getBody());
             MessageData messageData = gson.fromJson(responseEntity.getBody(),MessageData.class);
+            if (messageData.getMessageTypeIdentifier().equals("110")) {
+                messageData.setMessageTypeIdentifier("0110");
+            }
 
             // TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody());
             TransformedMessage mappedResponse = mcbnService.map(messageData);
