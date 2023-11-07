@@ -218,3 +218,11 @@ jobs:
         working-directory: ./terraform/app
         run: terraform destroy --auto-approve
   
+  decommision-vtas-environments:
+    name: Decommission VTAS environments
+    needs: [execute-fandango-sit]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        run: this is a placeholder for the demo
+      
