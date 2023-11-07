@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
@@ -122,6 +123,8 @@ public class MipConnection extends Thread {
 
             MessageData requestBody = mcbnService.parse(requestHexString);
 
+            BigDecimal convRate = requestBody.getConversionRateCardholderBilling();
+
             requestBody.setAdditionalDataPrivateUse(null);
             requestBody.setCardAcceptorNameLocation(null);
             requestBody.setConversionRateCardholderBilling(null);
@@ -145,9 +148,17 @@ public class MipConnection extends Thread {
 
             // System.out.println(responseEntity.getBody());
             MessageData messageData = gson.fromJson(responseEntity.getBody(),MessageData.class);
+
             if (messageData.getMessageTypeIdentifier().equals("110")) {
                 messageData.setMessageTypeIdentifier("0110");
             }
+            if (convRate != null) {
+                messageData.setConversionRateCardholderBilling(convRate);
+            }
+            messageData.setTimeLocalTransaction(null);
+            messageData.setDateLocalTransaction(null);
+            messageData.setMerchantType(null);
+            messageData.setPosEntryModeCode(null);
 
             // TransformedMessage mappedResponse = mcbnService.map(responseEntity.getBody());
             TransformedMessage mappedResponse = mcbnService.map(messageData);
