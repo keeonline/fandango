@@ -122,6 +122,13 @@ public class MipConnection extends Thread {
 
             MessageData requestBody = mcbnService.parse(requestHexString);
 
+            requestBody.setAdditionalDataPrivateUse(null);
+            requestBody.setCardAcceptorNameLocation(null);
+            requestBody.setConversionRateCardholderBilling(null);
+            requestBody.setDateExpiration(null);
+            requestBody.setPointOfServiceData(null);
+
+
             RestTemplate restTemplate = new RestTemplate();
             // HttpEntity<MessageData> requestEntity = new HttpEntity<>(requestBody);
             // ResponseEntity<MessageData> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MessageData.class); 
