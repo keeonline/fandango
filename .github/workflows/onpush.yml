@@ -220,9 +220,10 @@ jobs:
   
   decommision-vtas-environments:
     name: Decommission VTAS environments
+    if: always()
     needs: [execute-fandango-sit]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        run: this is a placeholder for the demo
+        run: echo this is a placeholder for the demo
       
