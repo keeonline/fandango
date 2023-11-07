@@ -13,6 +13,5 @@ services:
     environment:
       MCBN_HOST: ${MCBN_HOST}
       PAYMENTS_BASE_URL: ${PAYMENTS_BASE_URL}
-      # PAYMENTS_BASE_URL: http://payments:80
     # depends_on:
     #   - payments
